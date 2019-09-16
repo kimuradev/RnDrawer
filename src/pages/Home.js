@@ -1,16 +1,37 @@
 import React from 'react';
-import {Button, View} from 'react-native';
+import {Button, View, Text} from 'react-native';
+import Rate, {AndroidMarket} from 'react-native-rate';
 
 class HomeScreen extends React.Component {
+  state = {
+    rated: false,
+  };
+
   static navigationOptions = ({navigation}) => ({
     title: 'Home',
     headerMode: 'screen',
-    headerLeft: (
-      <Button
-        onPress={() => navigation.navigate('DrawerOpen')}
-        title="="
-        color="#000"
-      />
+    headerRight: (
+      <Text
+        style={{color: 'blue', marginRight: 20}}
+        onPress={() => {
+          let options = {
+            GooglePackageName: 'com.voltagecalcrn',
+            OtherAndroidURL:
+              'https://play.google.com/store/apps/details?id=com.voltagecalcrn',
+            preferredAndroidMarket: AndroidMarket.Google,
+            preferInApp: false,
+            openAppStoreIfInAppFails: true,
+            fallbackPlatformURL: 'http://www.mywebsite.com/myapp.html',
+          };
+          Rate.rate(options, success => {
+            if (success) {
+              // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
+              this.setState({rated: true});
+            }
+          });
+        }}>
+        RATE
+      </Text>
     ),
   });
   render() {
@@ -26,6 +47,28 @@ class HomeScreen extends React.Component {
           title="Open drawer"
           onPress={() => this.props.navigation.toggleDrawer()}
         />
+
+        <Text
+          style={{color: 'blue', marginRight: 20}}
+          onPress={() => {
+            let options = {
+              GooglePackageName: 'com.voltagecalcrn',
+              OtherAndroidURL:
+                'https://play.google.com/store/apps/details?id=com.voltagecalcrn',
+              preferredAndroidMarket: AndroidMarket.Google,
+              preferInApp: false,
+              openAppStoreIfInAppFails: true,
+              fallbackPlatformURL: 'http://www.mywebsite.com/myapp.html',
+            };
+            Rate.rate(options, success => {
+              if (success) {
+                // this technically only tells us if the user successfully went to the Review Page. Whether they actually did anything, we do not know.
+                this.setState({rated: true});
+              }
+            });
+          }}>
+          RATE
+        </Text>
       </View>
     );
   }
